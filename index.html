@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <meta name="description" content="A personal dashboard for tracking data structures and algorithms practice.">
+  <title>Orbit DSA — Practice Tracker</title>
+  <style>
+    :root{color-scheme:light;--ink:#19243b;--muted:#7b859a;--line:#e9edf4;--paper:#fff;--canvas:#f5f7fb;--blue:#526cf5;--green:#249b72;--orange:#d99042;--red:#ce676d;--shadow:0 9px 32px rgba(31,48,91,.055)}
+    *{box-sizing:border-box}body{margin:0;color:var(--ink);background:var(--canvas);font:14px/1.45 "DM Sans",Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{color:inherit}
+    .topbar{height:68px;padding:0 max(5vw,24px);display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid #edf0f5}.brand{display:flex;gap:10px;align-items:center;color:var(--ink);font-size:17px;font-weight:800;letter-spacing:-.5px}.brand b{color:#8390b2;font-weight:600}.brand-icon{width:22px;height:22px;display:grid;grid-template-columns:1fr 1fr;gap:3px;transform:rotate(-8deg)}.brand-icon i{background:#6177f7;border-radius:4px}.brand-icon i:nth-child(2){background:#9aa8ff}.brand-icon i:nth-child(3){background:#c2caff}.brand-icon i:nth-child(4){background:#485de4}
+    .top-actions{display:flex;gap:18px;align-items:center}.privacy{color:#818ba0;font-size:11px}.privacy:before{content:"";display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:#2db987}
+    .btn{min-height:39px;padding:0 14px;display:inline-flex;gap:7px;align-items:center;justify-content:center;border:1px solid transparent;border-radius:8px;font-weight:700;font-size:11px;cursor:pointer;transition:.16s}.btn:hover{transform:translateY(-1px)}.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #526cf533;outline-offset:2px}.primary{color:#fff;background:var(--blue);box-shadow:0 5px 12px #526cf530}.primary:hover{background:#455fe9}.quiet{color:#59657c;background:#fff;border-color:#e6eaf2}.quiet:hover{color:var(--blue);border-color:#cad2fa;background:#fafbff}
+    main{width:min(1200px,90vw);margin:auto;padding:38px 0 24px}.welcome{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:23px}.eyebrow{margin:0 0 6px;color:#8b95aa;font-size:9px;font-weight:800;letter-spacing:1.15px}.welcome h1{margin:0;font-size:clamp(25px,3vw,33px);line-height:1.2;letter-spacing:-1.2px}.welcome h1 span{color:#6879e8}.welcome p:last-child{margin:8px 0 0;color:var(--muted);font-size:13px}.date{padding:9px 12px;border:1px solid var(--line);border-radius:8px;color:#78839a;background:#fff;font-size:11px}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:15px}.card,.panel{background:#fff;border:1px solid #ebeff5;border-radius:12px;box-shadow:var(--shadow)}.card{padding:15px 17px;min-height:128px}.stat-label{display:flex;gap:8px;align-items:center;color:#737e94;font-size:11px;font-weight:600}.icon{width:27px;height:27px;display:grid;place-items:center;border-radius:8px;font-weight:800}.ib{color:#6476ee;background:#eff1ff}.ig{color:#1eab7a;background:#eaf8f2}.io{color:#da8740;background:#fff4e8}.ip{color:#8b5bc9;background:#f5effc}.stat-value{margin:8px 0 1px;font-size:27px;font-weight:800;letter-spacing:-.7px}.stat-foot{color:#98a1b3;font-size:10px}.stat-foot strong{color:#2d9b74}
+    .overview{display:grid;grid-template-columns:1.4fr .9fr;gap:14px;margin-bottom:15px}.panel{padding:19px 20px}.panel-head{display:flex;justify-content:space-between;align-items:flex-start}.panel-head h2,.library-head h2{margin:0;font-size:17px;letter-spacing:-.4px}.subtle{padding:5px 8px;color:#8993a6;background:#f6f7fa;border-radius:6px;font-size:10px}.progress-panel{min-height:285px}.progress-content{display:flex;align-items:center;gap:44px;padding:20px 4px 16px}.ring{--p:0%;width:132px;height:132px;flex:none;display:grid;place-items:center;border-radius:50%;background:conic-gradient(#687cf4 var(--p),#edf0fa 0);transform:rotate(-90deg)}.ring-center{width:102px;height:102px;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:50%;background:#fff;transform:rotate(90deg)}.ring-center b{font-size:25px;letter-spacing:-1px}.ring-center span{color:#97a0b2;font-size:10px}.detail{flex:1;min-width:160px}.detail p{max-width:290px;margin:0 0 10px;color:#7c879c;font-size:11px}.legend{display:grid;grid-template-columns:10px 1fr auto;gap:8px;align-items:center;margin:8px 0;color:#7d879c;font-size:10px}.legend strong{color:#39455f}.dot{width:8px;height:8px;border-radius:50%}.dot.done{background:#697cf4}.dot.open{background:#dde2f4}.divider{height:1px;margin:11px 0;background:#f0f2f7}.difficulty-counts{display:flex;gap:16px}.difficulty-counts span{display:grid;gap:2px;font-size:9px;font-weight:700}.difficulty-counts b{color:#404b64;font-size:11px}.easy{color:#319a74}.medium{color:#cb8738}.hard{color:#cc666c}
+    .activity{padding-top:12px;border-top:1px solid #f0f2f7}.activity-head{display:flex;justify-content:space-between;align-items:center}.activity-head strong{font-size:11px}.activity-head span{color:#6273df;font-size:10px;font-weight:700}.activity-chart{height:48px;display:grid;grid-template-columns:repeat(7,1fr);gap:11px;align-items:end;margin-top:7px}.day{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}.bar-wrap{height:31px;display:flex;justify-content:center;align-items:flex-end;width:100%}.bar{width:min(18px,65%);min-height:4px;border-radius:4px 4px 2px 2px;background:#8997f8}.day.today .bar{background:#526cf5}.day small{color:#9ba3b4;font-size:8px}
+    .topics-panel{min-height:285px;display:flex;flex-direction:column}.topics{flex:1;display:flex;flex-direction:column;gap:13px;margin-top:20px}.topic-row{display:grid;grid-template-columns:minmax(75px,1fr) minmax(60px,1.5fr) 20px;gap:9px;align-items:center;color:#778198;font-size:10px}.topic-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.track{height:6px;overflow:hidden;border-radius:8px;background:#f0f2f8}.fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#8290f8,#b2bbff)}.topic-count{color:#9aa3b4;text-align:right}.topic-empty{display:none;flex:1;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#909aaf}.topic-empty.show{display:flex}.empty-icon{width:42px;height:42px;display:grid;place-items:center;color:#7484f1;background:#f0f2ff;border:1px solid #e8ebff;border-radius:12px;font-size:19px}.topic-empty strong{margin-top:9px;color:#59657d;font-size:11px}.topic-empty p{max-width:210px;margin:4px 0 0;font-size:10px}.tip{display:flex;gap:8px;margin-top:13px;padding:9px 10px;color:#79839a;background:#f8f9fd;border-radius:7px;font-size:9px;line-height:1.5}.tip b{color:#8a79dc}
+    .library{padding:19px 20px 0}.library-head{display:flex;align-items:center;justify-content:space-between;gap:15px}.library-head .description{margin:5px 0 0;color:#9099ab;font-size:10px}.data-actions{display:flex;gap:7px}.data-actions .btn{min-height:33px;padding:0 10px;font-size:10px}
+    .filters{display:flex;gap:8px;margin:17px 0 12px}.search{height:37px;flex:1;min-width:190px;display:flex;gap:8px;align-items:center;padding:0 10px;border:1px solid #e7ebf2;border-radius:8px}.search span{color:#98a2b7;font-size:18px}.search input{width:100%;border:0;outline:0;color:#48546d;font-size:10px}.search input::placeholder{color:#a4adbd}.filter select{height:37px;min-width:120px;padding:0 9px;border:1px solid #e7ebf2;border-radius:8px;background:#fff;color:#738098;font-size:10px}
+    .table-wrap{min-height:130px;overflow-x:auto;border:1px solid #edf0f5;border-radius:8px 8px 0 0}table{width:100%;border-collapse:collapse;text-align:left}thead{background:#fafbfc}th{height:35px;padding:0 11px;color:#9aa3b4;border-bottom:1px solid #edf0f5;font-size:9px;white-space:nowrap}td{height:56px;padding:7px 11px;color:#717c91;border-bottom:1px solid #f0f2f6;font-size:10px;white-space:nowrap}tbody tr:last-child td{border-bottom:0}.problem-cell{display:flex;min-width:195px;gap:8px;align-items:center}.platform-icon{width:27px;height:27px;flex:none;display:grid;place-items:center;color:#6376ed;background:#eff1ff;border-radius:7px;font-size:10px;font-weight:800}.problem-title{display:block;max-width:230px;overflow:hidden;color:#36435d;font-size:10px;font-weight:700;text-decoration:none;text-overflow:ellipsis}.problem-title:hover{color:var(--blue)}.platform-name{display:block;margin-top:2px;color:#9aa3b3;font-size:8px}.topic-pill,.difficulty-pill,.status-pill{display:inline-flex;align-items:center;gap:5px;padding:5px 7px;border-radius:5px;font-size:9px}.topic-pill{max-width:115px;overflow:hidden;color:#7784a0;background:#f5f6fa;text-overflow:ellipsis}.difficulty-pill,.status-pill{font-weight:700}.difficulty-pill:before,.status-pill:before{width:5px;height:5px;border-radius:50%;background:currentColor;content:""}.difficulty-pill.easy{color:#319a74;background:#edf8f3}.difficulty-pill.medium{color:#cb8738;background:#fff5e9}.difficulty-pill.hard{color:#cc666c;background:#fff0f0}.status-pill.solved{color:#2d9b74;background:#edf8f3}.status-pill.in-progress{color:#5f72dc;background:#eef1ff}.status-pill.to-do{color:#848da0;background:#f3f4f7}.last-practiced{color:#99a2b3;font-size:9px}.row-actions{display:flex;justify-content:flex-end;gap:4px}.row-action{width:26px;height:26px;display:grid;place-items:center;padding:0;color:#8893a9;background:#fff;border:1px solid #edf0f5;border-radius:6px;cursor:pointer;font-size:12px}.row-action:hover{color:#566be8;border-color:#dbe0fc;background:#f8f9ff}.row-action.delete:hover{color:#ce6168;border-color:#f3d8da;background:#fff8f8}
+    .empty-state{display:none;min-height:205px;flex-direction:column;justify-content:center;align-items:center;padding:22px;text-align:center}.empty-state.show{display:flex}.empty-state h3{margin:10px 0 4px;font-size:13px}.empty-state p{max-width:280px;margin:0 0 12px;color:#929caf;font-size:10px}.empty-state .btn{min-height:34px}.table-footer{height:38px;display:flex;justify-content:space-between;align-items:center;color:#9aa3b3;border-top:1px solid #edf0f5;font-size:9px}.save-check{color:#27a579;font-weight:800}.footer{display:flex;justify-content:space-between;padding:17px 2px 0;color:#a0a8b8;font-size:9px}.footer b{color:#6e7ca0}
+    dialog{width:min(550px,calc(100vw - 24px));max-height:90vh;overflow:auto;padding:0;color:var(--ink);background:#fff;border:1px solid #e8ecf4;border-radius:14px;box-shadow:0 25px 80px #1e2b4c38}dialog::backdrop{background:#18223a70;backdrop-filter:blur(3px)}.dialog-form{padding:21px}.dialog-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:17px}.dialog-head h2{margin:0;font-size:19px}.dialog-head .eyebrow{margin-bottom:5px}.close{width:30px;height:30px;border:0;border-radius:7px;background:#f6f7fa;color:#8993a8;font-size:19px;cursor:pointer}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;min-width:0;flex-direction:column;gap:5px;color:#56627a;font-size:10px;font-weight:700}.wide{grid-column:1/-1}.field small{color:#a1a9b8;font-weight:400}.field input,.field select,.field textarea{width:100%;min-height:37px;padding:8px 9px;border:1px solid #e5e9f0;border-radius:7px;color:#35415a;background:#fff;font-size:10px;font-weight:400}.field textarea{min-height:68px;resize:vertical}.field input::placeholder,.field textarea::placeholder{color:#aab2c0}.error{margin:10px 0 0;padding:8px 10px;color:#bd4f57;background:#fff2f2;border-radius:7px;font-size:10px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #eff1f5}
+    .toast{position:fixed;z-index:5;right:20px;bottom:20px;max-width:calc(100vw - 40px);padding:11px 14px;color:#fff;background:#26334d;border-radius:8px;box-shadow:0 8px 30px #121c3133;opacity:0;pointer-events:none;transform:translateY(7px);transition:.2s;font-size:11px}.toast.show{opacity:1;transform:translateY(0)}.hidden{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    @media(max-width:850px){main{width:93vw}.overview{grid-template-columns:1fr 1fr}.progress-content{gap:22px}.ring{width:116px;height:116px}.ring-center{width:90px;height:90px}.filters{flex-wrap:wrap}.search{flex-basis:100%}}
+    @media(max-width:620px){.topbar{height:60px;padding:0 16px}.privacy{display:none}main{width:auto;padding:27px 14px 20px}.welcome{align-items:flex-start;flex-direction:column;gap:12px}.stats{grid-template-columns:1fr 1fr;gap:9px}.card{min-height:112px;padding:12px}.stat-value{font-size:24px}.overview{grid-template-columns:1fr;gap:10px}.panel{padding:16px 14px}.progress-content{justify-content:space-around;gap:14px}.ring{width:108px;height:108px}.ring-center{width:84px;height:84px}.detail{min-width:145px}.library{padding:16px 11px 0}.library-head{align-items:flex-start;flex-direction:column}.data-actions{width:100%}.data-actions .btn{flex:1}.filters{gap:6px;margin:14px 0 10px}.filter{flex:1}.filter select{width:100%;min-width:0;font-size:9px}.filter:last-child{flex-basis:100%}.footer{gap:10px}.dialog-form{padding:16px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="brand-icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>orbit<b>/dsa</b></span></div>
+    <div class="top-actions"><span class="privacy">Your data stays on this device</span><button class="btn primary" type="button" data-open>＋ Add problem</button></div>
+  </header>
+  <main>
+    <section class="welcome">
+      <div><p class="eyebrow">YOUR PRACTICE SPACE</p><h1>Small steps. <span>Strong fundamentals.</span></h1><p>Keep your DSA practice organized, one problem at a time.</p></div>
+      <div class="date" id="today"></div>
+    </section>
+    <section class="stats" aria-label="Practice summary">
+      <article class="card"><div class="stat-label"><span class="icon ib">⌘</span> Problems tracked</div><div class="stat-value" id="total">0</div><div class="stat-foot">Your practice, all in one place</div></article>
+      <article class="card"><div class="stat-label"><span class="icon ig">✓</span> Solved</div><div class="stat-value" id="solved">0</div><div class="stat-foot"><strong id="percent">0%</strong> of tracked problems</div></article>
+      <article class="card"><div class="stat-label"><span class="icon io">↗</span> In progress</div><div class="stat-value" id="in-progress">0</div><div class="stat-foot">Keep the momentum going</div></article>
+      <article class="card"><div class="stat-label"><span class="icon ip">✦</span> Practice streak</div><div class="stat-value"><span id="streak">0</span><small style="font-size:12px;color:#67748e;font-weight:600"> days</small></div><div class="stat-foot">Based on days marked solved</div></article>
+    </section>
+    <section class="overview">
+      <article class="panel progress-panel">
+        <div class="panel-head"><div><p class="eyebrow">OVERVIEW</p><h2>Your progress</h2></div><span class="subtle">All time</span></div>
+        <div class="progress-content">
+          <div class="ring" id="ring" role="img" aria-label="0 percent completed"><div class="ring-center"><b id="ring-text">0%</b><span>completed</span></div></div>
+          <div class="detail"><p>Every problem you solve builds a stronger foundation.</p><div class="legend"><i class="dot done"></i><span>Solved</span><strong id="legend-solved">0</strong></div><div class="legend"><i class="dot open"></i><span>Still to solve</span><strong id="legend-open">0</strong></div><div class="divider"></div><div class="difficulty-counts"><span class="easy">Easy<b id="easy-count">0</b></span><span class="medium">Medium<b id="medium-count">0</b></span><span class="hard">Hard<b id="hard-count">0</b></span></div></div>
+        </div>
+        <div class="activity"><div class="activity-head"><strong>Last 7 days</strong><span id="week-total">0 solved</span></div><div class="activity-chart" id="week-chart" aria-label="Problems marked solved in the last seven days"></div></div>
+      </article>
+      <article class="panel topics-panel">
+        <div class="panel-head"><div><p class="eyebrow">KEEP EXPLORING</p><h2>Topic mix</h2></div><span class="subtle" id="topics-badge">0 topics</span></div>
+        <div class="topics" id="topics"></div>
+        <div class="topic-empty" id="topic-empty"><div class="empty-icon">⌘</div><strong>Your topics will show up here</strong><p>Add a problem and choose a topic to get started.</p></div>
+        <div class="tip"><b>✦</b><span>Consistent practice beats cramming. Add a problem whenever you solve one.</span></div>
+      </article>
+    </section>
+    <section class="panel library" aria-labelledby="library-title">
+      <div class="library-head"><div><p class="eyebrow">YOUR LIBRARY</p><h2 id="library-title">Problem tracker</h2><p class="description">Save problems to revisit, organize, and mark your progress.</p></div><div class="data-actions"><button class="btn quiet" id="import-btn" type="button">Import backup</button><input class="hidden" id="import-file" type="file" accept="application/json,.json" aria-label="Choose a JSON backup"><button class="btn quiet" id="export-btn" type="button">Export backup</button></div></div>
+      <div class="filters">
+        <label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Search problems or topics..." autocomplete="off"><span class="hidden">Search</span></label>
+        <label class="filter"><span class="hidden">Filter by status</span><select id="status-filter"><option value="all">All statuses</option><option value="To Do">To do</option><option value="In Progress">In progress</option><option value="Solved">Solved</option></select></label>
+        <label class="filter"><span class="hidden">Filter by difficulty</span><select id="difficulty-filter"><option value="all">All difficulties</option><option>Easy</option><option>Medium</option><option>Hard</option></select></label>
+        <label class="filter"><span class="hidden">Sort problems</span><select id="sort-filter"><option value="recent">Recently added</option><option value="oldest">Oldest added</option><option value="title">Title A–Z</option><option value="difficulty">Difficulty</option></select></label>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Problem</th><th>Topic</th><th>Difficulty</th><th>Status</th><th>Last practiced</th><th><span class="hidden">Actions</span></th></tr></thead><tbody id="rows"></tbody></table>
+        <div class="empty-state" id="empty-state"><div class="empty-icon">⌘</div><h3 id="empty-title">Your tracker starts here</h3><p id="empty-copy">Add your first problem to keep your practice organized.</p><button class="btn primary" type="button" data-open>＋ Add your first problem</button></div>
+      </div>
+      <div class="table-footer"><span id="result-count">Showing 0 problems</span><span>Saved on this device <b class="save-check">✓</b></span></div>
+    </section>
+    <footer class="footer"><span><b>orbit/dsa</b></span><span>Your practice is private and stored in this browser.</span></footer>
+  </main>
+
+  <dialog id="problem-dialog" aria-labelledby="form-title">
+    <form class="dialog-form" id="problem-form" novalidate>
+      <div class="dialog-head"><div><p class="eyebrow">PROBLEM DETAILS</p><h2 id="form-title">Add a problem</h2></div><button class="close" type="button" id="close-dialog" aria-label="Close">×</button></div>
+      <input id="problem-id" type="hidden">
+      <div class="form-grid">
+        <label class="field wide"><span>Problem name <b style="color:#ce676d">*</b></span><input id="title" maxlength="100" placeholder="e.g. Two Sum" required></label>
+        <label class="field"><span>Topic</span><input id="topic" maxlength="40" list="topic-list" placeholder="e.g. Arrays"><datalist id="topic-list"><option>Arrays</option><option>Strings</option><option>Hashing</option><option>Two Pointers</option><option>Sliding Window</option><option>Binary Search</option><option>Linked Lists</option><option>Trees</option><option>Graphs</option><option>Dynamic Programming</option><option>Greedy</option><option>Stack and Queue</option><option>Heap</option><option>Backtracking</option><option>Bit Manipulation</option><option>Math</option></datalist></label>
+        <label class="field"><span>Difficulty</span><select id="difficulty"><option>Easy</option><option selected>Medium</option><option>Hard</option></select></label>
+        <label class="field"><span>Status</span><select id="status"><option>To Do</option><option>In Progress</option><option>Solved</option></select></label>
+        <label class="field"><span>Platform</span><select id="platform"><option>LeetCode</option><option>GeeksforGeeks</option><option>HackerRank</option><option>Codeforces</option><option>InterviewBit</option><option>Other</option></select></label>
+        <label class="field wide"><span>Problem link <small>optional</small></span><input id="url" type="url" maxlength="500" placeholder="https://..."></label>
+        <label class="field"><span>Attempts</span><input id="attempts" type="number" min="0" max="999" value="1"></label>
+        <label class="field"><span>Last practiced</span><input id="practice-date" type="date"></label>
+        <label class="field wide"><span>Notes <small>optional</small></span><textarea id="notes" rows="3" maxlength="500" placeholder="Approach, tricky part, or what to review next..."></textarea></label>
+      </div>
+      <p class="error" id="form-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button class="btn quiet" type="button" id="cancel">Cancel</button><button class="btn primary" type="submit" id="save-btn">Save problem</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+  (function(){
+    "use strict";
+    const KEY="orbit-dsa-tracker-v1";
+    const $=s=>document.querySelector(s);
+    const $$=s=>Array.from(document.querySelectorAll(s));
+    const dialog=$("#problem-dialog"),form=$("#problem-form"),toast=$("#toast");
+    let items=load(),timer=null,lastFocus=null;
+    const filters={query:"",status:"all",difficulty:"all",sort:"recent"};
+    function localDate(d){d=d||new Date();return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
+    function load(){try{const d=JSON.parse(localStorage.getItem(KEY)||"[]");return Array.isArray(d)?d.filter(x=>x&&typeof x.title==="string"):[]}catch(_){return[]}}
+    function esc(v){return String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+    function id(){return window.crypto&&crypto.randomUUID?crypto.randomUUID():"p-"+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+    function message(text){toast.textContent=text;toast.classList.add("show");clearTimeout(timer);timer=setTimeout(()=>toast.classList.remove("show"),2600)}
+    function dateLabel(s){if(!s)return"Not set";const a=String(s).split("-").map(Number);if(a.length!==3||a.some(n=>!Number.isFinite(n)))return"Not set";return new Date(a[0],a[1]-1,a[2]).toLocaleDateString(undefined,{month:"short",day:"numeric",year:"numeric"})}
+    function ordinal(s){if(!s)return null;const a=String(s).split("-").map(Number);if(a.length!==3||a.some(n=>!Number.isFinite(n)))return null;return Math.floor(Date.UTC(a[0],a[1]-1,a[2])/86400000)}
+    function save(msg){try{localStorage.setItem(KEY,JSON.stringify(items));render();if(msg)message(msg)}catch(_){message("Could not save. Please export a backup or free browser storage.")}}
+    function streak(){const days=[...new Set(items.filter(x=>x.status==="Solved").map(x=>ordinal(x.solvedAt||x.lastPracticedAt)).filter(x=>x!==null))].sort((a,b)=>b-a);if(!days.length)return 0;let expected=days[0],today=ordinal(localDate());if(expected!==today&&expected!==today-1)return 0;let n=1;for(let i=1;i<days.length;i++){if(days[i]===expected-1){expected=days[i];n++}else if(days[i]<expected-1)break}return n}
+    function renderStats(){
+      const total=items.length,done=items.filter(x=>x.status==="Solved").length,p=total?Math.round(done/total*100):0;
+      $("#total").textContent=total;$("#solved").textContent=done;$("#in-progress").textContent=items.filter(x=>x.status==="In Progress").length;$("#percent").textContent=p+"%";$("#streak").textContent=streak();
+      $("#ring-text").textContent=p+"%";$("#ring").style.setProperty("--p",p+"%");$("#ring").setAttribute("aria-label",p+" percent completed");$("#legend-solved").textContent=done;$("#legend-open").textContent=total-done;
+      ["Easy","Medium","Hard"].forEach(d=>$("#"+d.toLowerCase()+"-count").textContent=items.filter(x=>x.difficulty===d).length)
+    }
+    function renderWeek(){
+      const now=new Date(),today=ordinal(localDate()),count=Array(7).fill(0);
+      items.forEach(x=>{if(x.status!=="Solved")return;const day=ordinal(x.solvedAt||x.lastPracticedAt),offset=today-day;if(offset>=0&&offset<7)count[6-offset]++});
+      const max=Math.max(1,...count),days=[];
+      for(let offset=6;offset>=0;offset--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-offset);days.push({label:d.toLocaleDateString(undefined,{weekday:"short"}),today:offset===0})}
+      $("#week-chart").innerHTML=days.map((d,i)=>'<div class="day'+(d.today?" today":"")+'"><div class="bar-wrap"><i class="bar" style="height:'+Math.max(4,count[i]?Math.round(count[i]/max*30):4)+'px" title="'+count[i]+' solved"></i></div><small>'+esc(d.label)+"</small></div>").join("");
+      const sum=count.reduce((a,b)=>a+b,0);$("#week-total").textContent=sum+" solved"
+    }
+    function renderTopics(){
+      const map={};items.forEach(x=>{const t=String(x.topic||"").trim();if(t)map[t]=(map[t]||0)+1});
+      const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,5),keys=Object.keys(map);
+      $("#topics-badge").textContent=keys.length+(keys.length===1?" topic":" topics");
+      $("#topics").innerHTML=entries.map(e=>'<div class="topic-row"><span class="topic-name" title="'+esc(e[0])+'">'+esc(e[0])+'</span><span class="track"><i class="fill" style="display:block;width:'+Math.max(10,Math.round(e[1]/entries[0][1]*100))+'%"></i></span><span class="topic-count">'+e[1]+"</span></div>").join("");
+      $("#topic-empty").classList.toggle("show",!entries.length)
+    }
+    function visible(){
+      const q=filters.query.trim().toLowerCase(),order={Easy:1,Medium:2,Hard:3};
+      const list=items.filter(x=>(!q||[x.title,x.topic,x.platform,x.notes].some(v=>String(v||"").toLowerCase().includes(q)))&&(filters.status==="all"||x.status===filters.status)&&(filters.difficulty==="all"||x.difficulty===filters.difficulty));
+      list.sort((a,b)=>filters.sort==="oldest"?String(a.createdAt||"").localeCompare(String(b.createdAt||"")):filters.sort==="title"?a.title.localeCompare(b.title):filters.sort==="difficulty"?(order[a.difficulty]||2)-(order[b.difficulty]||2):String(b.createdAt||"").localeCompare(String(a.createdAt||"")));
+      return list
+    }
+    function renderRows(){
+      const list=visible(),body=$("#rows"),empty=$("#empty-state"),filtered=filters.query||filters.status!=="all"||filters.difficulty!=="all";
+      body.innerHTML=list.map(x=>{
+        const href=/^https?:\/\//i.test(String(x.url||"").trim())?String(x.url).trim():"";
+        const title=href?'<a class="problem-title" href="'+esc(href)+'" target="_blank" rel="noopener noreferrer">'+esc(x.title)+'</a>':'<span class="problem-title">'+esc(x.title)+"</span>";
+        const statusClass=x.status==="Solved"?"solved":x.status==="In Progress"?"in-progress":"to-do";
+        return"<tr><td><div class=\"problem-cell\"><span class=\"platform-icon\" aria-hidden=\"true\">"+esc(String(x.platform||"P").slice(0,1).toUpperCase())+"</span><div>"+title+'<span class="platform-name">'+esc(x.platform||"Other")+" · "+Math.max(0,Number(x.attempts)||0)+" attempts</span></div></div></td>"+
+          '<td><span class="topic-pill">'+esc(x.topic||"Uncategorized")+'</span></td><td><span class="difficulty-pill '+esc(String(x.difficulty||"Medium").toLowerCase())+'">'+esc(x.difficulty||"Medium")+'</span></td>'+
+          '<td><span class="status-pill '+statusClass+'">'+esc(x.status||"To Do")+'</span></td><td><span class="last-practiced">'+esc(dateLabel(x.lastPracticedAt))+'</span></td><td><div class="row-actions">'+
+          '<button class="row-action" data-action="toggle" data-id="'+esc(x.id)+'" aria-label="'+(x.status==="Solved"?"Reopen ":"Mark solved: ")+esc(x.title)+'" title="'+(x.status==="Solved"?"Reopen":"Mark solved")+'">'+(x.status==="Solved"?"↶":"✓")+"</button>"+
+          '<button class="row-action" data-action="edit" data-id="'+esc(x.id)+'" aria-label="Edit '+esc(x.title)+'" title="Edit">✎</button><button class="row-action delete" data-action="delete" data-id="'+esc(x.id)+'" aria-label="Delete '+esc(x.title)+'" title="Delete">×</button></div></td></tr>'
+      }).join("");
+      empty.classList.toggle("show",!list.length);
+      if(!list.length){$("#empty-title").textContent=filtered?"No matching problems":items.length?"Nothing to show":"Your tracker starts here";$("#empty-copy").textContent=filtered?"Try changing your search or filters":items.length?"Add a problem to get started":"Add your first problem to keep your practice organized";empty.querySelector("button").hidden=filtered||items.length>0}
+      $("#result-count").textContent="Showing "+list.length+(list.length===1?" problem":" problems")
+    }
+    function render(){renderStats();renderWeek();renderTopics();renderRows()}
+    function openForm(x){
+      lastFocus=document.activeElement;form.reset();$("#problem-id").value=x?x.id:"";$("#title").value=x?x.title:"";$("#topic").value=x?(x.topic||""):"";$("#difficulty").value=x?x.difficulty||"Medium":"Medium";$("#status").value=x?x.status||"To Do":"To Do";$("#platform").value=x?x.platform||"Other":"LeetCode";$("#url").value=x?(x.url||""):"";$("#attempts").value=x?Math.max(0,Number(x.attempts)||0):1;$("#practice-date").value=x?x.lastPracticedAt||localDate():localDate();$("#notes").value=x?(x.notes||""):"";$("#form-title").textContent=x?"Edit problem":"Add a problem";$("#save-btn").textContent=x?"Save changes":"Save problem";$("#form-error").hidden=true;dialog.showModal();setTimeout(()=>$("#title").focus(),15)
+    }
+    function closeForm(){if(dialog.open)dialog.close();if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+    function handleSubmit(e){
+      e.preventDefault();const title=$("#title").value.trim(),urlText=$("#url").value.trim(),err=$("#form-error");let url="";
+      if(!title){err.textContent="Add a problem name before saving.";err.hidden=false;$("#title").focus();return}
+      if(urlText){try{const u=new URL(urlText);if(!["http:","https:"].includes(u.protocol))throw Error();url=u.href}catch(_){err.textContent="Enter a valid link starting with http:// or https://.";err.hidden=false;$("#url").focus();return}}
+      const old=items.find(x=>x.id===$("#problem-id").value),status=$("#status").value,last=$("#practice-date").value||localDate();
+      const x={id:old?old.id:id(),title,topic:$("#topic").value.trim(),difficulty:$("#difficulty").value,status,platform:$("#platform").value,url,attempts:Math.max(0,parseInt($("#attempts").value,10)||0),lastPracticedAt:last,solvedAt:status==="Solved"?(old&&old.solvedAt||last):null,notes:$("#notes").value.trim(),createdAt:old?old.createdAt:new Date().toISOString()};
+      items=old?items.map(y=>y.id===old.id?x:y):[x,...items];closeForm();save(old?"Problem updated.":"Problem added.")
+    }
+    $("#today").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"});
+    $$("[data-open]").forEach(b=>b.addEventListener("click",()=>openForm(null)));
+    $("#close-dialog").addEventListener("click",closeForm);$("#cancel").addEventListener("click",closeForm);form.addEventListener("submit",handleSubmit);
+    $("#search").addEventListener("input",e=>{filters.query=e.target.value;renderRows()});
+    $("#status-filter").addEventListener("change",e=>{filters.status=e.target.value;renderRows()});
+    $("#difficulty-filter").addEventListener("change",e=>{filters.difficulty=e.target.value;renderRows()});
+    $("#sort-filter").addEventListener("change",e=>{filters.sort=e.target.value;renderRows()});
+    $("#rows").addEventListener("click",e=>{
+      const b=e.target.closest("button[data-action]");if(!b)return;const x=items.find(y=>y.id===b.dataset.id);if(!x)return;
+      if(b.dataset.action==="edit")openForm(x);
+      else if(b.dataset.action==="delete"){if(!confirm('Delete "'+x.title+'" from your tracker?'))return;items=items.filter(y=>y.id!==x.id);save("Problem deleted.")}
+      else if(b.dataset.action==="toggle"){if(x.status==="Solved"){x.status="In Progress";x.solvedAt=null;x.lastPracticedAt=localDate();save("Problem moved back to in progress.")}else{x.status="Solved";x.solvedAt=localDate();x.lastPracticedAt=localDate();save("Nice work — marked as solved.")}}
+    });
+    $("#export-btn").addEventListener("click",()=>{const blob=new Blob([JSON.stringify({app:"orbit/dsa",version:1,exportedAt:new Date().toISOString(),problems:items},null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="dsa-practice-tracker-backup-"+localDate()+".json";document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);message("Backup exported.")});
+    $("#import-btn").addEventListener("click",()=>$("#import-file").click());
+    $("#import-file").addEventListener("change",e=>{
+      const file=e.target.files&&e.target.files[0];if(!file)return;const reader=new FileReader();
+      reader.onload=()=>{try{const d=JSON.parse(String(reader.result||"")),incoming=Array.isArray(d)?d:d.problems;if(!Array.isArray(incoming)||incoming.some(x=>!x||typeof x.title!=="string"))throw Error("This file does not look like a tracker backup.");if(!confirm("Import "+incoming.length+" problems? This replaces the problems currently in this browser."))return;
+        items=incoming.map(x=>({id:String(x.id||id()),title:String(x.title).slice(0,100),topic:String(x.topic||"").slice(0,40),difficulty:["Easy","Medium","Hard"].includes(x.difficulty)?x.difficulty:"Medium",status:["To Do","In Progress","Solved"].includes(x.status)?x.status:"To Do",platform:String(x.platform||"Other"),url:String(x.url||""),attempts:Math.max(0,parseInt(x.attempts,10)||0),lastPracticedAt:String(x.lastPracticedAt||""),solvedAt:x.status==="Solved"?String(x.solvedAt||x.lastPracticedAt||""):null,notes:String(x.notes||"").slice(0,500),createdAt:String(x.createdAt||new Date().toISOString())}));save("Backup imported.")
+        }catch(error){message(error.message||"Could not read that backup.")}finally{e.target.value=""}};
+      reader.onerror=()=>message("Could not read that file.");reader.readAsText(file)
+    });
+    dialog.addEventListener("click",e=>{if(e.target===dialog)closeForm()});
+    dialog.addEventListener("close",()=>{if(lastFocus&&lastFocus.focus)lastFocus.focus()});
+    document.addEventListener("keydown",e=>{if(e.key==="/"&&!dialog.open&&!["INPUT","TEXTAREA","SELECT"].includes(document.activeElement.tagName)){e.preventDefault();$("#search").focus()}});
+    render()
+  })();
+  </script>
+</body>
+</html>
